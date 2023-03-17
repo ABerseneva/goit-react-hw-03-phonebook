@@ -15,6 +15,20 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedCantact = JSON.parse(contacts);
+    if (parsedCantact) {
+      this.setState({ contacts: parsedCantact });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   formSubmitHandler = contact => {
     const nameMatch = this.state.contacts.some(el => el.name === contact.name);
     if (nameMatch) {
